@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.Map;
+import java.util.List;
 
 @Controller
 public class GreetingController {
@@ -38,6 +40,20 @@ public class GreetingController {
         Message message = new Message(text, tag);
         messagesRepo.save(message);
         Iterable<Message> messages = messagesRepo.findAll();
+        model.put("messages", messages);
+        return "main";
+    }
+
+    @PostMapping("filter")
+    public String filter (@RequestParam String tag, Map<String, Object> model) {
+        Iterable<Message> messages;
+
+        if (tag != null && !tag.isEmpty()) {
+            messages = messagesRepo.findByTag(tag);
+        } else {
+            messages = messagesRepo.findAll();
+        }
+
         model.put("messages", messages);
         return "main";
     }

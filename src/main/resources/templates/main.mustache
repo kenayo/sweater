@@ -8,6 +8,10 @@
         </form>
     </div>
     <div>Список сообщений</div>
+    <form method="post" action="filter">
+        <input type="text" name="tag">
+        <button type="submit">Find</button>
+    </form>
     {{#messages}}
     <div>
         <b>{{id}}</b>
